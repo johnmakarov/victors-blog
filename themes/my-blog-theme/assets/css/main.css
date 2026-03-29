@@ -86,7 +86,6 @@ body {
     font-weight: 400;
     color: #5E5E5E;
     word-wrap: break-word;
-    margin: 0;
 }
 
 .posts-header {
@@ -141,3 +140,83 @@ body {
     }
 }
 
+img {
+    margin: 40px 0;
+    max-width: 100%;
+}
+
+.toc-wrapper {
+    margin: 0 0 40px 0;
+}
+
+.toc-nav {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    background: #F9F9F9;
+    border: 2px dashed #ddd;
+    border-radius: 16px;
+    padding: 16px 20px;
+    transition: 0.15s linear;
+}
+
+.toc-nav:hover {
+    border-color: black;
+    background: #FEFEFE;
+}
+
+.toc-nav ul {
+    margin: 0;
+    padding-left: 24px;
+    list-style: none;
+}
+
+.toc-nav li {
+    margin: 8px 0;
+    line-height: 1.4;
+}
+
+.toc-nav a {
+    color: #5E5E5E;
+    text-decoration: none;
+    border-bottom: 1px dotted transparent;
+    transition: 0.1s linear;
+}
+
+.toc-nav a:hover {
+    color: black;
+    border-bottom-color: black;
+}
+
+.toc-nav ul ul {
+    padding-left: 24px;
+    margin-top: 6px;
+}
+
+.toc-nav ul ul li {
+    margin: 6px 0;
+}
+
+.toc-nav ul ul a {
+    font-size: 14px;
+    color: #7A7A7A;
+}
+
+@media (max-width: 768px) {
+    .toc-header {
+        font-size: 16px;
+    }
+    
+    .toc-nav {
+        font-size: 14px;
+        padding: 12px 16px;
+        border-radius: 12px;
+    }
+    
+    .toc-nav ul {
+        padding-left: 16px;
+    }
+    
+    .toc-nav ul ul {
+        padding-left: 16px;
+    }
+}
