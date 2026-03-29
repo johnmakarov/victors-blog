@@ -1,13 +1,5 @@
 {{ define "main" }}
   {{ .Content }}
-
-  <div class="filters-container">
-  <a href="/" class="filter-link">Все статьи</a>
-  <a href="/tags/запилил/" class="filter-link">Запилил</a>
-  <a href="/tags/выпилил/" class="filter-link">Выпилил</a>
-  <a href="/tags/другое/" class="filter-link">Другое</a>
-  </div>
-
   {{ range .Pages }}
     <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
   {{ end }}
