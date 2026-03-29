@@ -1,0 +1,11 @@
+<h1>{{ site.Title }}</h1>
+
+<div class="header-container">
+  <a class="telegram-button" href="https://t.me/spoon_of_quality/12">Telegram</a>
+  <a class="about-button" href="https://t.me/spoon_of_quality/12">Обо мне</a>
+  <a class="yet-button" href="https://t.me/spoon_of_quality/12">Еще одна кнопка</a>
+
+  {{ if .IsPage }}
+    <a class="main-page-button" href="/">На главную</a>
+  {{ end }}
+</div>
