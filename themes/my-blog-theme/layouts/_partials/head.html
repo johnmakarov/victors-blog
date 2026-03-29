@@ -6,5 +6,7 @@
 {{ if $css }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 {{ end }}
+{{ if or .Params.js (not .IsHome) }}
+{{ end }}
 {{ partialCached "head/css.html" . }}
 {{ partialCached "head/js.html" . }}

@@ -11,5 +11,5 @@ theme = 'my-blog-theme'
   [markup.highlight]
     style = "github"
     lineNos = false
-    noClasses = true
+    noClasses = false
     tabWidth = 4
