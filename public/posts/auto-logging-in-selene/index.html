@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
-<head><script src="/victors-blog/livereload.js?mindelay=10&amp;v=2&amp;port=53034&amp;path=victors-blog/livereload" data-no-instant defer></script>
+<head><script src="/victors-blog/livereload.js?mindelay=10&amp;v=2&amp;port=49851&amp;path=victors-blog/livereload" data-no-instant defer></script>
   <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 <title>Автоматическое логгирование шагов в Selene | </title>
@@ -55,28 +55,28 @@
         </div>
         <p><a href="https://github.com/yashaka/selene">Selene</a> - прекрасная библиотека, которая позволяет писать прекрасные автотесты. Ниже представлен рецепт приготовления автоматичесского логгирования шагов в Selene.</p>
 <h2 id="пилим-фикстурку">Пилим фикстурку</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pytest</span>
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">allure_commons</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">selene</span> <span class="kn">import</span> <span class="n">support</span><span class="p">,</span> <span class="n">browser</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">browser_management</span><span class="p">():</span>
-</span></span><span class="line"><span class="cl">    <span class="n">browser</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">_wait_decorator</span> <span class="o">=</span> <span class="n">support</span><span class="o">.</span><span class="n">_logging</span><span class="o">.</span><span class="n">wait_with</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">            <span class="n">context</span><span class="o">=</span><span class="n">allure_commons</span><span class="o">.</span><span class="n">_allure</span><span class="o">.</span><span class="n">StepContext</span>
-</span></span><span class="line"><span class="cl">        <span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">yield</span>
-</span></span><span class="line"><span class="cl">    <span class="n">browser</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#cf222e">import</span> <span style="color:#24292e">pytest</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">import</span> <span style="color:#24292e">allure_commons</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">from</span> <span style="color:#24292e">selene</span> <span style="color:#cf222e">import</span> support<span style="color:#1f2328">,</span> browser
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#0550ae">@pytest.fixture</span><span style="color:#1f2328">(</span>autouse<span style="color:#0550ae">=</span><span style="color:#cf222e">True</span><span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">def</span> <span style="color:#6639ba">browser_management</span><span style="color:#1f2328">():</span>
+</span></span><span style="display:flex;"><span>    browser<span style="color:#0550ae">.</span>config<span style="color:#0550ae">.</span>_wait_decorator <span style="color:#0550ae">=</span> support<span style="color:#0550ae">.</span>_logging<span style="color:#0550ae">.</span>wait_with<span style="color:#1f2328">(</span>
+</span></span><span style="display:flex;"><span>            context<span style="color:#0550ae">=</span>allure_commons<span style="color:#0550ae">.</span>_allure<span style="color:#0550ae">.</span>StepContext
+</span></span><span style="display:flex;"><span>        <span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#cf222e">yield</span>
+</span></span><span style="display:flex;"><span>    browser<span style="color:#0550ae">.</span>quit<span style="color:#1f2328">()</span>
 </span></span></code></pre></div><h2 id="пишем-тест">Пишем тест</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">selene.support.shared.jquery_style</span> <span class="kn">import</span> <span class="n">s</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">selene</span> <span class="kn">import</span> <span class="n">browser</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">test_login</span><span class="p">():</span>
-</span></span><span class="line"><span class="cl">    <span class="n">browser</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&#34;https://www.saucedemo.com/&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="p">(</span><span class="s1">&#39;[data-test=&#34;username&#34;]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="s2">&#34;standard_user&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="p">(</span><span class="s1">&#39;[data-test=&#34;password&#34;]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="s2">&#34;secret_sauce&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="p">(</span><span class="s1">&#39;[data-test=&#34;login-button&#34;]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#cf222e">from</span> <span style="color:#24292e">selene.support.shared.jquery_style</span> <span style="color:#cf222e">import</span> s
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">from</span> <span style="color:#24292e">selene</span> <span style="color:#cf222e">import</span> browser
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#cf222e">def</span> <span style="color:#6639ba">test_login</span><span style="color:#1f2328">():</span>
+</span></span><span style="display:flex;"><span>    browser<span style="color:#0550ae">.</span>open<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;https://www.saucedemo.com/&#34;</span><span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>    s<span style="color:#1f2328">(</span><span style="color:#0a3069">&#39;[data-test=&#34;username&#34;]&#39;</span><span style="color:#1f2328">)</span><span style="color:#0550ae">.</span>type<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;standard_user&#34;</span><span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>    s<span style="color:#1f2328">(</span><span style="color:#0a3069">&#39;[data-test=&#34;password&#34;]&#39;</span><span style="color:#1f2328">)</span><span style="color:#0550ae">.</span>type<span style="color:#1f2328">(</span><span style="color:#0a3069">&#34;secret_sauce&#34;</span><span style="color:#1f2328">)</span>
+</span></span><span style="display:flex;"><span>    s<span style="color:#1f2328">(</span><span style="color:#0a3069">&#39;[data-test=&#34;login-button&#34;]&#39;</span><span style="color:#1f2328">)</span><span style="color:#0550ae">.</span>click<span style="color:#1f2328">()</span>
 </span></span></code></pre></div><h2 id="запускаем">Запускаем</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pytest --alluredir<span class="o">=</span>allure-results
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pytest --alluredir<span style="color:#0550ae">=</span>allure-results
 </span></span></code></pre></div><h2 id="наслаждаемся">Наслаждаемся</h2>
 <p><img src="./result-image.png" alt="Пример Allure отчета"></p>
 <p>Будет дополнено.</p>
@@ -92,12 +92,12 @@
         
         
             
+        
+            
             <a href="/victors-blog/posts/auto-logging-in-playwright/" class="read-more-post">
                 <div class="post-data">29.03.2026</div>
                 <h4>Автоматическое логгирование шагов в Playwright</h4>
             </a>
-            
-        
             
         
     </div>

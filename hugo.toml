@@ -10,6 +10,6 @@ theme = 'my-blog-theme'
     ordered = false 
   [markup.highlight]
     style = "github"
-    lineNumbersInTable = false      
-    noClasses = false 
+    lineNos = false
+    noClasses = true
     tabWidth = 4

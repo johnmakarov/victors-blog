@@ -97,7 +97,7 @@ def test_logout(page: Page, open_login_page) -> None:
 
 ## Запускаем
 
-```bash
+```python
 pytest --alluredir=allure-results
 ```
 
