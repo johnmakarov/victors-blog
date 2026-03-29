@@ -1,4 +1,4 @@
-baseURL = 'https://johnmakarov.github.io/'
+baseURL = 'https://johnmakarov.github.io/victors-blog/'
 languageCode = 'en-us'
 title = ''
 theme = 'my-blog-theme'
