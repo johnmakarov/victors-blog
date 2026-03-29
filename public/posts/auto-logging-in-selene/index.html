@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
-<head><script src="/victors-blog/livereload.js?mindelay=10&amp;v=2&amp;port=49950&amp;path=victors-blog/livereload" data-no-instant defer></script>
+<head><script src="/victors-blog/livereload.js?mindelay=10&amp;v=2&amp;port=53034&amp;path=victors-blog/livereload" data-no-instant defer></script>
   <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 <title>Автоматическое логгирование шагов в Selene | </title>
@@ -55,22 +55,7 @@
         </div>
         <p><a href="https://github.com/yashaka/selene">Selene</a> - прекрасная библиотека, которая позволяет писать прекрасные автотесты. Ниже представлен рецепт приготовления автоматичесского логгирования шагов в Selene.</p>
 <h2 id="пилим-фикстурку">Пилим фикстурку</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pytest</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pytest</span>
 </span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">allure_commons</span>
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">selene</span> <span class="kn">import</span> <span class="n">support</span><span class="p">,</span> <span class="n">browser</span>
 </span></span><span class="line"><span class="cl">
@@ -81,22 +66,8 @@
 </span></span><span class="line"><span class="cl">        <span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">yield</span>
 </span></span><span class="line"><span class="cl">    <span class="n">browser</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="пишем-тест">Пишем тест</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">selene.support.shared.jquery_style</span> <span class="kn">import</span> <span class="n">s</span>
+</span></span></code></pre></div><h2 id="пишем-тест">Пишем тест</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">selene.support.shared.jquery_style</span> <span class="kn">import</span> <span class="n">s</span>
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">selene</span> <span class="kn">import</span> <span class="n">browser</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">test_login</span><span class="p">():</span>
@@ -104,18 +75,9 @@
 </span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="p">(</span><span class="s1">&#39;[data-test=&#34;username&#34;]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="s2">&#34;standard_user&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="p">(</span><span class="s1">&#39;[data-test=&#34;password&#34;]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="s2">&#34;secret_sauce&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="p">(</span><span class="s1">&#39;[data-test=&#34;login-button&#34;]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="запускаем">Запускаем</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pytest --alluredir<span class="o">=</span>allure-results
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="наслаждаемся">Наслаждаемся</h2>
+</span></span></code></pre></div><h2 id="запускаем">Запускаем</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pytest --alluredir<span class="o">=</span>allure-results
+</span></span></code></pre></div><h2 id="наслаждаемся">Наслаждаемся</h2>
 <p><img src="./result-image.png" alt="Пример Allure отчета"></p>
 <p>Будет дополнено.</p>
 
@@ -130,12 +92,12 @@
         
         
             
-        
-            
             <a href="/victors-blog/posts/auto-logging-in-playwright/" class="read-more-post">
                 <div class="post-data">29.03.2026</div>
                 <h4>Автоматическое логгирование шагов в Playwright</h4>
             </a>
+            
+        
             
         
     </div>
