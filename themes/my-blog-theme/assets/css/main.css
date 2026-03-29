@@ -156,12 +156,6 @@ img {
     border: 2px dashed #ddd;
     border-radius: 16px;
     padding: 16px 20px;
-    transition: 0.15s linear;
-}
-
-.toc-nav:hover {
-    border-color: black;
-    background: #FEFEFE;
 }
 
 .toc-nav ul {
