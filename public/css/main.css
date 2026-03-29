@@ -1,3 +1,4 @@
+
 body {
     margin: 0 auto;
     padding: 0 20px;
@@ -9,6 +10,7 @@ body {
     justify-content: flex-start;
     gap: 20px;
     flex-wrap: wrap;
+    outline: 1px solid red;
 }
 
 .header-container a {
@@ -47,6 +49,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 30px;
+    outline: 1px solid red;
 }
 
 .post-item {
@@ -107,13 +110,12 @@ body {
     }
 
     .post-item {
-        grid-template-columns: auto 1fr;
-        gap: 15px;
+        display: block;
         border-bottom: 1px solid #eee;
+        gap: 15px;
         padding-bottom: 24px;
-        margin-bottom: 0;
     }
-
+    
     .post-item .post-data {
         display: none;
     }

@@ -1,3 +1,4 @@
+
 body {
     margin: 0 auto;
     padding: 0 20px;
@@ -107,11 +108,10 @@ body {
     }
 
     .post-item {
-        grid-template-columns: auto 1fr;
-        gap: 15px;
+        display: block;
         border-bottom: 1px solid #eee;
+        gap: 15px;
         padding-bottom: 24px;
-        margin-bottom: 0;
     }
 
     .post-item .post-data {
