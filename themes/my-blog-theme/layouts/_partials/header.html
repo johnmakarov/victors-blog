@@ -6,6 +6,6 @@
   <a class="yet-button" href="https://t.me/spoon_of_quality/12">Еще одна кнопка</a>
 
   {{ if .IsPage }}
-    <a class="main-page-button" href="{{ "/" | relURL }}">На главную</a>
-  {{ end }}
+  <a class="main-page-button" href="{{ .Site.Home.RelPermalink }}">На главную</a>
+{{ end }}
 </div>
