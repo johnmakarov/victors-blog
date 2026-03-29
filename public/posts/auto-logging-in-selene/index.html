@@ -3,7 +3,7 @@
 <head><script src="/victors-blog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=victors-blog/livereload" data-no-instant defer></script>
   <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
-<title>Posts | </title>
+<title>Автоматическое логгирование шагов в Selene | </title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="/victors-blog/css/main.css">
@@ -19,23 +19,39 @@
 
 <div class="header-container">
   
+  <a class="main-page-button yet-button" href="/victors-blog/">На главную</a>
+
   <a class="telegram-button" href="https://t.me/spoon_of_quality/12">Telegram</a>
   <a class="about-button" href="https://t.me/spoon_of_quality/12">Обо мне</a>
-  
-  <a class="yet-button" href="https://t.me/spoon_of_quality/12">Еще одна кнопка</a>
   
 </div>
   </header>
   <main>
     
-  <h1>Posts</h1>
+  <div class="posts-header">
+    <span>Дата /</span>
+    <span>Название</span>
+  </div>
   
-  
-    <h2><a href="/victors-blog/posts/auto-logging-in-selene/">Автоматическое логгирование шагов в Selene</a></h2>
-    <p><a href="https://github.com/yashaka/selene">Selene</a> - прекрасная библиотека, которая позволяет писать прекрасные автотесты. Ниже представлен рецепт приготовления автоматичесского логгирования шагов в Selene.</p>
-<ol>
-<li>Пилим фикстурку</li>
-</ol>
+  <div class="posts-container">
+    <div class="post-item">
+      <div class="post-data">29.03.2026</div>
+      <h2>Автоматическое логгирование шагов в Selene</h2>
+      
+      <div class="post-description">
+        <div class="toc-wrapper">
+          <nav class="toc-nav">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#пилим-фикстурку">Пилим фикстурку</a></li>
+    <li><a href="#пишем-тест">Пишем тест</a></li>
+    <li><a href="#наслаждаемся">Наслаждаемся</a></li>
+  </ul>
+</nav>
+          </nav>
+        </div>
+        <p><a href="https://github.com/yashaka/selene">Selene</a> - прекрасная библиотека, которая позволяет писать прекрасные автотесты. Ниже представлен рецепт приготовления автоматичесского логгирования шагов в Selene.</p>
+<h2 id="пилим-фикстурку">Пилим фикстурку</h2>
 <pre tabindex="0"><code>import pytest
 import allure_commons
 from selene import support, browser
@@ -47,9 +63,7 @@ def browser_management():
         )
     yield
     browser.quit()
-</code></pre><ol start="2">
-<li>Пишем тест</li>
-</ol>
+</code></pre><h2 id="пишем-тест">Пишем тест</h2>
 <pre tabindex="0"><code>from selene.support.shared.jquery_style import s
 from selene import browser
 
@@ -58,11 +72,24 @@ def test_login():
     s(&#39;[data-test=&#34;username&#34;]&#39;).type(&#34;standard_user&#34;)
     s(&#39;[data-test=&#34;password&#34;]&#39;).type(&#34;secret_sauce&#34;)
     s(&#39;[data-test=&#34;login-button&#34;]&#39;).click()
-</code></pre><ol start="3">
-<li>Наслаждаемся</li>
-</ol>
+</code></pre><h2 id="наслаждаемся">Наслаждаемся</h2>
 <p><img src="./result-image.png" alt="Пример Allure отчета"></p>
+<p>Будет дополнено.</p>
+
+      </div>
+    </div>
+  </div>
   
+<div class="read-more-container">
+    <h3 class="read-more-header">Читать ещё</h3>
+    <div class="read-more-posts">
+        
+        
+        
+            
+        
+    </div>
+</div>
 
   </main>
   <footer>

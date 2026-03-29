@@ -6,6 +6,14 @@
     <description>Recent content on </description>
     <generator>Hugo</generator>
     <language>en-us</language>
+    <lastBuildDate>Sun, 29 Mar 2026 21:17:52 +0300</lastBuildDate>
     <atom:link href="http://localhost:1313/victors-blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Автоматическое логгирование шагов в Selene</title>
+      <link>http://localhost:1313/victors-blog/posts/auto-logging-in-selene/</link>
+      <pubDate>Sun, 29 Mar 2026 21:17:52 +0300</pubDate>
+      <guid>http://localhost:1313/victors-blog/posts/auto-logging-in-selene/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/yashaka/selene&#34;&gt;Selene&lt;/a&gt; - прекрасная библиотека, которая позволяет писать прекрасные автотесты. Ниже представлен рецепт приготовления автоматичесского логгирования шагов в Selene.&lt;/p&gt;&#xA;&lt;h2 id=&#34;пилим-фикстурку&#34;&gt;Пилим фикстурку&lt;/h2&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;import pytest&#xA;import allure_commons&#xA;from selene import support, browser&#xA;&#xA;@pytest.fixture(autouse=True)&#xA;def browser_management():&#xA;    browser.config._wait_decorator = support._logging.wait_with(&#xA;            context=allure_commons._allure.StepContext&#xA;        )&#xA;    yield&#xA;    browser.quit()&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;пишем-тест&#34;&gt;Пишем тест&lt;/h2&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;from selene.support.shared.jquery_style import s&#xA;from selene import browser&#xA;&#xA;def test_login():&#xA;    browser.open(&amp;#34;https://www.saucedemo.com/&amp;#34;)&#xA;    s(&amp;#39;[data-test=&amp;#34;username&amp;#34;]&amp;#39;).type(&amp;#34;standard_user&amp;#34;)&#xA;    s(&amp;#39;[data-test=&amp;#34;password&amp;#34;]&amp;#39;).type(&amp;#34;secret_sauce&amp;#34;)&#xA;    s(&amp;#39;[data-test=&amp;#34;login-button&amp;#34;]&amp;#39;).click()&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;наслаждаемся&#34;&gt;Наслаждаемся&lt;/h2&gt;&#xA;&lt;p&gt;&lt;img src=&#34;./result-image.png&#34; alt=&#34;Пример Allure отчета&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;Будет дополнено.&lt;/p&gt;</description>
+    </item>
   </channel>
 </rss>
