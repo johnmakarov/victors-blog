@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
-<head><script src="/victors-blog/livereload.js?mindelay=10&amp;v=2&amp;port=56150&amp;path=victors-blog/livereload" data-no-instant defer></script>
+<head><script src="/victors-blog/livereload.js?mindelay=10&amp;v=2&amp;port=61706&amp;path=victors-blog/livereload" data-no-instant defer></script>
   <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 <title>Posts | </title>
@@ -32,6 +32,100 @@
     
   <h1>Posts</h1>
   
+  
+    <h2><a href="/victors-blog/posts/auto-logging-in-playwright/">Автоматическое логгирование шагов в Playwright</a></h2>
+    <p><a href="https://github.com/microsoft/playwright-python">Playwright</a> - прекрасная библиотека, которая позволяет писать прекрасные автотесты. Ниже представлен рецепт приготовления автоматичесского логгирования шагов в Playwright.</p>
+<h2 id="пилим-фикстурку">Пилим фикстурку</h2>
+<pre tabindex="0"><code>import json
+from playwright.sync_api import Page
+import pytest
+from zipfile import ZipFile
+import pathlib
+import allure
+import structlog
+import uuid
+import allure 
+
+
+logger = structlog.get_logger(__name__).bind(service=&#34;ui&#34;)
+
+
+def log_steps(steps):
+    log = logger.bind(event_id=str(uuid.uuid4()))
+    log.msg(event=&#34;ui&#34;, steps=steps)
+
+
+def attach_steps(steps):
+    allure.dynamic.description_html(
+        f&#34;&lt;h3&gt;Steps:&lt;/h3&gt;&lt;ul&gt;{&#39;&lt;/ul&gt;&lt;ul&gt;&#39;.join([f&#39;&lt;li&gt;{step}&lt;/li&gt;&#39; for step in steps])}&lt;/ul&gt;&#34;
+    )
+
+def get_step(event):
+    if event.get(&#34;type&#34;) != &#34;before&#34;:
+        return None
+
+    method = event.get(&#34;method&#34;)
+    params = event.get(&#34;params&#34;, {})
+
+    if not params:
+        return None
+
+    params_str = &#34; &#34;.join([f&#34;{key} {value}&#34; for key, value in params.items() if value])
+    return f&#34;{method}: {params_str}&#34;
+
+
+@pytest.fixture(autouse=True)
+def check_artifacts_folder(_artifacts_recorder, tmp_path):
+
+    yield
+
+    trace_zip_path = _artifacts_recorder._traces[0]
+
+    extract_path = tmp_path / &#34;extracted_trace_folder&#34;
+    trace_file = pathlib.Path(extract_path) / &#34;trace.trace&#34;
+
+    with ZipFile(trace_zip_path, &#34;r&#34;) as zip_ref:
+        zip_ref.extractall(extract_path)
+
+    steps = []
+
+    with open(trace_file, &#34;r&#34;, encoding=&#34;utf-8&#34;) as f:
+        for line in f:
+            event = json.loads(line.strip())
+            step = get_step(event)
+            if step:
+                steps.append(get_step(event))
+
+    log_steps(steps)
+    attach_steps(steps)
+</code></pre><h2 id="пишем-тест">Пишем тест</h2>
+<pre tabindex="0"><code>@pytest.fixture()
+def open_login_page(page: Page) -&gt; None:
+    page.goto(&#34;https://www.saucedemo.com/&#34;)
+
+
+def test_login(page: Page, open_login_page) -&gt; None:
+    page.fill(&#34;#user-name&#34;, &#34;standard_user&#34;)
+    page.fill(&#34;#password&#34;, &#34;secret_sauce&#34;)
+    page.click(&#34;#login-button&#34;)
+
+
+def test_logout(page: Page, open_login_page) -&gt; None:
+    page.fill(&#34;#user-name&#34;, &#34;standard_user&#34;)
+    page.fill(&#34;#password&#34;, &#34;secret_sauce&#34;)
+    page.click(&#34;#login-button&#34;)
+    page.click(&#34;#react-burger-menu-btn&#34;)
+    page.click(&#34;#logout_sidebar_link&#34;)
+</code></pre><h2 id="запускаем">Запускаем</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pytest --alluredir<span class="o">=</span>allure-results
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Будет дополнено.</p>
   
     <h2><a href="/victors-blog/posts/auto-logging-in-selene/">Автоматическое логгирование шагов в Selene</a></h2>
     <p><a href="https://github.com/yashaka/selene">Selene</a> - прекрасная библиотека, которая позволяет писать прекрасные автотесты. Ниже представлен рецепт приготовления автоматичесского логгирования шагов в Selene.</p>
