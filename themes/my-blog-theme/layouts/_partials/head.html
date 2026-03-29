@@ -2,5 +2,9 @@
 <meta name="viewport" content="width=device-width">
 <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+{{ $css := resources.Get "css/syntax.css" }}
+{{ if $css }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}">
+{{ end }}
 {{ partialCached "head/css.html" . }}
 {{ partialCached "head/js.html" . }}

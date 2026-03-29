@@ -8,7 +8,7 @@ title = 'Автоматическое логгирование шагов в Sel
 
 ## Пилим фикстурку 
 
-```
+```python
 import pytest
 import allure_commons
 from selene import support, browser
@@ -24,7 +24,7 @@ def browser_management():
 
 ## Пишем тест 
 
-```
+```python
 from selene.support.shared.jquery_style import s
 from selene import browser
 
@@ -35,7 +35,14 @@ def test_login():
     s('[data-test="login-button"]').click()
 ```
 
+## Запускаем 
+
+```bash
+pytest --alluredir=allure-results
+```
+
 ## Наслаждаемся
+
 
 ![Пример Allure отчета](./result-image.png)
 

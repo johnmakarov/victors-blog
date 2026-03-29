@@ -5,6 +5,11 @@ theme = 'my-blog-theme'
 
 [markup]
   [markup.tableOfContents]
-    startLevel = 2    # Начинать с H2
-    endLevel = 4      # Заканчивать на H4
-    ordered = false   # Маркированный список
+    startLevel = 2
+    endLevel = 4
+    ordered = false 
+  [markup.highlight]
+    style = "github"
+    lineNos = true      
+    noClasses = false 
+    tabWidth = 4
