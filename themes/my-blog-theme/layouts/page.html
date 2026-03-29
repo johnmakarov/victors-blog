@@ -19,4 +19,20 @@
       </div>
     </div>
   </div>
+  
+<div class="read-more-container">
+    <h3 class="read-more-header">Читать ещё</h3>
+    <div class="read-more-posts">
+        {{ $allPosts := where .Site.RegularPages "Section" "posts" }}
+        {{ $randomPosts := $allPosts | shuffle | first 3 }}
+        {{ range $randomPosts }}
+            {{ if ne .RelPermalink $.RelPermalink }}
+            <a href="{{ .RelPermalink }}" class="read-more-post">
+                <div class="post-data">{{ .Date.Format "02.01.2006" }}</div>
+                <h4>{{ .Title }}</h4>
+            </a>
+            {{ end }}
+        {{ end }}
+    </div>
+</div>
 {{ end }}
