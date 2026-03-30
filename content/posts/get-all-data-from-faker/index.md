@@ -6,7 +6,7 @@ title = 'Достаем все возможные данные из faker'
 
 ## Пишем код
 
-```
+```python
 from importlib import import_module
 from typing import Type
 from types import FunctionType
@@ -80,3 +80,5 @@ def get_all_provider_method_results(all_provider_methods_list):
 print(get_all_provider_method_results(get_all_provider_methods(company)))
 print(get_all_provider_method_results(get_all_provider_methods(person, 'es_AR')))
 ```
+
+Будет дополнено.
