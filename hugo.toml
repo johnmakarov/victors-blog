@@ -9,7 +9,8 @@ theme = 'my-blog-theme'
     endLevel = 4
     ordered = false 
   [markup.highlight]
-    style = "github"
+    style = "xcode"
     lineNos = false
-    noClasses = false
+    noClasses = true
     tabWidth = 4
+    
