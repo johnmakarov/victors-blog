@@ -9,7 +9,7 @@ theme = 'my-blog-theme'
     endLevel = 4
     ordered = false 
   [markup.highlight]
-    style = "xcode"
+    style = "dracula"
     lineNos = false
     noClasses = true
     tabWidth = 4

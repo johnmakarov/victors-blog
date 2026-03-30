@@ -1,6 +1,6 @@
 body {
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 20px 20px 0 20px;
     max-width: 1400px;
 }
 
@@ -61,17 +61,42 @@ body {
     font-family: 'JetBrains Mono', monospace;
     font-size: 20px;
     font-weight: 500;
-    color: black;
+    color: #5E5E5E;
     white-space: nowrap;
+}
+
+
+h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 40px;
+    font-weight: 500;
+    color: #0c7cff;
+    margin: 0 0 0 0;
+    line-height: 1;
 }
 
 .post-item h2 {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 20px;
+    font-size: 25px;
+    font-weight: 500;
+    color: #0c7cff;
+    margin: 0 0 0 0;
+    line-height: 1.5;
+}
+
+.p {
+    color: #1d1d1f;
+    font-size: 18px;
+}
+
+
+.post-item h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 25px;
     font-weight: 500;
     color: black;
     margin: 0 0 0 0;
-    line-height: 1.2;
+    line-height: 1;
 }
 
 .posts-header {
@@ -103,9 +128,14 @@ body {
         display: none;
     }
 
-    .post-item h2 {
+    .post-item h1 {
         font-size: 24px;
-        margin-bottom: 6px;
+        margin-bottom: 10px;
+    }
+
+    .post-item h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
     }
 
     .post-description {
@@ -147,15 +177,16 @@ img {
     font-family: 'JetBrains Mono', monospace;
     font-size: 18px;
     font-weight: 400;
-    color: #5E5E5E;
+    color: #1d1d1f80;
     word-wrap: break-word;
-    overflow-wrap: break-word;  /* ← ДОБАВИТЬ */
+    overflow-wrap: break-word;
     min-width: 0;    
 }
 
 .post-composition .toc-nav {
     font-family: 'JetBrains Mono', monospace;
     font-size: 16px;
+    border-radius: 10px;
     background: #F9F9F9;
     border: 2px dashed #ddd;
     padding: 16px 20px;
@@ -164,7 +195,8 @@ img {
 
 .toc-nav {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 16px;
+    font-weight: 500;
+    font-size: 18px;
     background: #F9F9F9;
     border: 2px dashed #ddd;
 }
@@ -324,8 +356,12 @@ img {
     font-family: 'JetBrains Mono', monospace;
     font-size: 20px;
     font-weight: 500;
-    color: black;
+    color: #5E5E5E;
     white-space: nowrap;
+}
+
+p a {
+    color: inherit;
 }
 
 .read-more-post h4 {
@@ -410,14 +446,15 @@ img {
 }
 
 @media (max-width: 1024px) {
-    .post-composition {
-        position: static;
-    }
-    
     .toc-nav {
-        position: relative;
-        top: 0;
-        max-height: none;
-        overflow-y: visible;
+        display: none;
     }
+}
+
+code {
+    padding: 15px;
+    display: inline-block;
+}
+pre {
+    border-radius: 10px;
 }

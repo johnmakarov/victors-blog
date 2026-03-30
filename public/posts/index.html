@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
-<head><script src="/victors-blog/livereload.js?mindelay=10&amp;v=2&amp;port=57690&amp;path=victors-blog/livereload" data-no-instant defer></script>
+<head><script src="/victors-blog/livereload.js?mindelay=10&amp;v=2&amp;port=63467&amp;path=victors-blog/livereload" data-no-instant defer></script>
   <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 <title>Posts | </title>
@@ -38,245 +38,245 @@
     <h2><a href="/victors-blog/posts/auto-logging-in-playwright/">Автоматическое логгирование шагов в Playwright</a></h2>
     <p><a href="https://github.com/microsoft/playwright-python">Playwright</a> - прекрасная библиотека, которая позволяет писать прекрасные автотесты. Ниже представлен рецепт приготовления автоматичесского логгирования шагов в Playwright.</p>
 <h2 id="пилим-фикстурку">Пилим фикстурку</h2>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a90d91">import</span> <span style="color:#000">json</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">from</span> <span style="color:#000">playwright.sync_api</span> <span style="color:#a90d91">import</span> <span style="color:#000">Page</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">import</span> <span style="color:#000">pytest</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">from</span> <span style="color:#000">zipfile</span> <span style="color:#a90d91">import</span> <span style="color:#000">ZipFile</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">import</span> <span style="color:#000">pathlib</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">import</span> <span style="color:#000">allure</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">import</span> <span style="color:#000">structlog</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">import</span> <span style="color:#000">uuid</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">import</span> <span style="color:#000">allure</span> 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> json
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> playwright.sync_api <span style="color:#ff79c6">import</span> Page
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> pytest
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> zipfile <span style="color:#ff79c6">import</span> ZipFile
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> pathlib
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> allure
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> structlog
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> uuid
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> allure 
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000">logger</span> <span style="color:#000">=</span> <span style="color:#000">structlog</span><span style="color:#000">.</span><span style="color:#000">get_logger</span>(<span style="color:#000">__name__</span>)<span style="color:#000">.</span><span style="color:#000">bind</span>(<span style="color:#000">service</span><span style="color:#000">=</span><span style="color:#c41a16">&#34;ui&#34;</span>)
+</span></span><span style="display:flex;"><span>logger <span style="color:#ff79c6">=</span> structlog<span style="color:#ff79c6">.</span>get_logger(<span style="color:#8be9fd;font-style:italic">__name__</span>)<span style="color:#ff79c6">.</span>bind(service<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;ui&#34;</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">def</span> <span style="color:#000">log_steps</span>(<span style="color:#000">steps</span>):
-</span></span><span style="display:flex;"><span>    <span style="color:#000">log</span> <span style="color:#000">=</span> <span style="color:#000">logger</span><span style="color:#000">.</span><span style="color:#000">bind</span>(<span style="color:#000">event_id</span><span style="color:#000">=</span><span style="color:#a90d91">str</span>(<span style="color:#000">uuid</span><span style="color:#000">.</span><span style="color:#000">uuid4</span>()))
-</span></span><span style="display:flex;"><span>    <span style="color:#000">log</span><span style="color:#000">.</span><span style="color:#000">msg</span>(<span style="color:#000">event</span><span style="color:#000">=</span><span style="color:#c41a16">&#34;ui&#34;</span>, <span style="color:#000">steps</span><span style="color:#000">=</span><span style="color:#000">steps</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">log_steps</span>(steps):
+</span></span><span style="display:flex;"><span>    log <span style="color:#ff79c6">=</span> logger<span style="color:#ff79c6">.</span>bind(event_id<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">str</span>(uuid<span style="color:#ff79c6">.</span>uuid4()))
+</span></span><span style="display:flex;"><span>    log<span style="color:#ff79c6">.</span>msg(event<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;ui&#34;</span>, steps<span style="color:#ff79c6">=</span>steps)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">def</span> <span style="color:#000">attach_steps</span>(<span style="color:#000">steps</span>):
-</span></span><span style="display:flex;"><span>    <span style="color:#000">allure</span><span style="color:#000">.</span><span style="color:#000">dynamic</span><span style="color:#000">.</span><span style="color:#000">description_html</span>(
-</span></span><span style="display:flex;"><span>        <span style="color:#c41a16">f</span><span style="color:#c41a16">&#34;&lt;h3&gt;Steps:&lt;/h3&gt;&lt;ul&gt;</span><span style="color:#c41a16">{</span><span style="color:#c41a16">&#39;&lt;/ul&gt;&lt;ul&gt;&#39;</span><span style="color:#000">.</span><span style="color:#000">join</span>([<span style="color:#c41a16">f</span><span style="color:#c41a16">&#39;&lt;li&gt;</span><span style="color:#c41a16">{</span><span style="color:#000">step</span><span style="color:#c41a16">}</span><span style="color:#c41a16">&lt;/li&gt;&#39;</span> <span style="color:#a90d91">for</span> <span style="color:#000">step</span> <span style="color:#000">in</span> <span style="color:#000">steps</span>])<span style="color:#c41a16">}</span><span style="color:#c41a16">&lt;/ul&gt;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">attach_steps</span>(steps):
+</span></span><span style="display:flex;"><span>    allure<span style="color:#ff79c6">.</span>dynamic<span style="color:#ff79c6">.</span>description_html(
+</span></span><span style="display:flex;"><span>        <span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;&lt;h3&gt;Steps:&lt;/h3&gt;&lt;ul&gt;</span><span style="color:#f1fa8c">{</span><span style="color:#f1fa8c">&#39;&lt;/ul&gt;&lt;ul&gt;&#39;</span><span style="color:#ff79c6">.</span>join([<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#39;&lt;li&gt;</span><span style="color:#f1fa8c">{</span>step<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&lt;/li&gt;&#39;</span> <span style="color:#ff79c6">for</span> step <span style="color:#ff79c6">in</span> steps])<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&lt;/ul&gt;&#34;</span>
 </span></span><span style="display:flex;"><span>    )
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">def</span> <span style="color:#000">get_step</span>(<span style="color:#000">event</span>):
-</span></span><span style="display:flex;"><span>    <span style="color:#a90d91">if</span> <span style="color:#000">event</span><span style="color:#000">.</span><span style="color:#000">get</span>(<span style="color:#c41a16">&#34;type&#34;</span>) <span style="color:#000">!=</span> <span style="color:#c41a16">&#34;before&#34;</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#a90d91">return</span> <span style="color:#a90d91">None</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">get_step</span>(event):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> event<span style="color:#ff79c6">.</span>get(<span style="color:#f1fa8c">&#34;type&#34;</span>) <span style="color:#ff79c6">!=</span> <span style="color:#f1fa8c">&#34;before&#34;</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">None</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">method</span> <span style="color:#000">=</span> <span style="color:#000">event</span><span style="color:#000">.</span><span style="color:#000">get</span>(<span style="color:#c41a16">&#34;method&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#000">params</span> <span style="color:#000">=</span> <span style="color:#000">event</span><span style="color:#000">.</span><span style="color:#000">get</span>(<span style="color:#c41a16">&#34;params&#34;</span>, {})
+</span></span><span style="display:flex;"><span>    method <span style="color:#ff79c6">=</span> event<span style="color:#ff79c6">.</span>get(<span style="color:#f1fa8c">&#34;method&#34;</span>)
+</span></span><span style="display:flex;"><span>    params <span style="color:#ff79c6">=</span> event<span style="color:#ff79c6">.</span>get(<span style="color:#f1fa8c">&#34;params&#34;</span>, {})
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a90d91">if</span> <span style="color:#000">not</span> <span style="color:#000">params</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#a90d91">return</span> <span style="color:#a90d91">None</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">not</span> params:
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">None</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">params_str</span> <span style="color:#000">=</span> <span style="color:#c41a16">&#34; &#34;</span><span style="color:#000">.</span><span style="color:#000">join</span>([<span style="color:#c41a16">f</span><span style="color:#c41a16">&#34;</span><span style="color:#c41a16">{</span><span style="color:#000">key</span><span style="color:#c41a16">}</span><span style="color:#c41a16"> </span><span style="color:#c41a16">{</span><span style="color:#000">value</span><span style="color:#c41a16">}</span><span style="color:#c41a16">&#34;</span> <span style="color:#a90d91">for</span> <span style="color:#000">key</span>, <span style="color:#000">value</span> <span style="color:#000">in</span> <span style="color:#000">params</span><span style="color:#000">.</span><span style="color:#000">items</span>() <span style="color:#a90d91">if</span> <span style="color:#000">value</span>])
-</span></span><span style="display:flex;"><span>    <span style="color:#a90d91">return</span> <span style="color:#c41a16">f</span><span style="color:#c41a16">&#34;</span><span style="color:#c41a16">{</span><span style="color:#000">method</span><span style="color:#c41a16">}</span><span style="color:#c41a16">: </span><span style="color:#c41a16">{</span><span style="color:#000">params_str</span><span style="color:#c41a16">}</span><span style="color:#c41a16">&#34;</span>
+</span></span><span style="display:flex;"><span>    params_str <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34; &#34;</span><span style="color:#ff79c6">.</span>join([<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">{</span>key<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> </span><span style="color:#f1fa8c">{</span>value<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span> <span style="color:#ff79c6">for</span> key, value <span style="color:#ff79c6">in</span> params<span style="color:#ff79c6">.</span>items() <span style="color:#ff79c6">if</span> value])
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">{</span>method<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">: </span><span style="color:#f1fa8c">{</span>params_str<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000">@pytest.fixture</span>(<span style="color:#000">autouse</span><span style="color:#000">=</span><span style="color:#a90d91">True</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">def</span> <span style="color:#000">check_artifacts_folder</span>(<span style="color:#000">_artifacts_recorder</span>, <span style="color:#000">tmp_path</span>):
+</span></span><span style="display:flex;"><span>@pytest.fixture(autouse<span style="color:#ff79c6">=</span><span style="color:#ff79c6">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">check_artifacts_folder</span>(_artifacts_recorder, tmp_path):
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a90d91">yield</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">yield</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">trace_zip_path</span> <span style="color:#000">=</span> <span style="color:#000">_artifacts_recorder</span><span style="color:#000">.</span><span style="color:#000">_traces</span>[<span style="color:#1c01ce">0</span>]
+</span></span><span style="display:flex;"><span>    trace_zip_path <span style="color:#ff79c6">=</span> _artifacts_recorder<span style="color:#ff79c6">.</span>_traces[<span style="color:#bd93f9">0</span>]
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">extract_path</span> <span style="color:#000">=</span> <span style="color:#000">tmp_path</span> <span style="color:#000">/</span> <span style="color:#c41a16">&#34;extracted_trace_folder&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">trace_file</span> <span style="color:#000">=</span> <span style="color:#000">pathlib</span><span style="color:#000">.</span><span style="color:#000">Path</span>(<span style="color:#000">extract_path</span>) <span style="color:#000">/</span> <span style="color:#c41a16">&#34;trace.trace&#34;</span>
+</span></span><span style="display:flex;"><span>    extract_path <span style="color:#ff79c6">=</span> tmp_path <span style="color:#ff79c6">/</span> <span style="color:#f1fa8c">&#34;extracted_trace_folder&#34;</span>
+</span></span><span style="display:flex;"><span>    trace_file <span style="color:#ff79c6">=</span> pathlib<span style="color:#ff79c6">.</span>Path(extract_path) <span style="color:#ff79c6">/</span> <span style="color:#f1fa8c">&#34;trace.trace&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a90d91">with</span> <span style="color:#000">ZipFile</span>(<span style="color:#000">trace_zip_path</span>, <span style="color:#c41a16">&#34;r&#34;</span>) <span style="color:#a90d91">as</span> <span style="color:#000">zip_ref</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#000">zip_ref</span><span style="color:#000">.</span><span style="color:#000">extractall</span>(<span style="color:#000">extract_path</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">with</span> ZipFile(trace_zip_path, <span style="color:#f1fa8c">&#34;r&#34;</span>) <span style="color:#ff79c6">as</span> zip_ref:
+</span></span><span style="display:flex;"><span>        zip_ref<span style="color:#ff79c6">.</span>extractall(extract_path)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">steps</span> <span style="color:#000">=</span> []
+</span></span><span style="display:flex;"><span>    steps <span style="color:#ff79c6">=</span> []
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a90d91">with</span> <span style="color:#a90d91">open</span>(<span style="color:#000">trace_file</span>, <span style="color:#c41a16">&#34;r&#34;</span>, <span style="color:#000">encoding</span><span style="color:#000">=</span><span style="color:#c41a16">&#34;utf-8&#34;</span>) <span style="color:#a90d91">as</span> <span style="color:#000">f</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#a90d91">for</span> <span style="color:#000">line</span> <span style="color:#000">in</span> <span style="color:#000">f</span>:
-</span></span><span style="display:flex;"><span>            <span style="color:#000">event</span> <span style="color:#000">=</span> <span style="color:#000">json</span><span style="color:#000">.</span><span style="color:#000">loads</span>(<span style="color:#000">line</span><span style="color:#000">.</span><span style="color:#000">strip</span>())
-</span></span><span style="display:flex;"><span>            <span style="color:#000">step</span> <span style="color:#000">=</span> <span style="color:#000">get_step</span>(<span style="color:#000">event</span>)
-</span></span><span style="display:flex;"><span>            <span style="color:#a90d91">if</span> <span style="color:#000">step</span>:
-</span></span><span style="display:flex;"><span>                <span style="color:#000">steps</span><span style="color:#000">.</span><span style="color:#000">append</span>(<span style="color:#000">get_step</span>(<span style="color:#000">event</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">with</span> <span style="color:#8be9fd;font-style:italic">open</span>(trace_file, <span style="color:#f1fa8c">&#34;r&#34;</span>, encoding<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;utf-8&#34;</span>) <span style="color:#ff79c6">as</span> f:
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">for</span> line <span style="color:#ff79c6">in</span> f:
+</span></span><span style="display:flex;"><span>            event <span style="color:#ff79c6">=</span> json<span style="color:#ff79c6">.</span>loads(line<span style="color:#ff79c6">.</span>strip())
+</span></span><span style="display:flex;"><span>            step <span style="color:#ff79c6">=</span> get_step(event)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> step:
+</span></span><span style="display:flex;"><span>                steps<span style="color:#ff79c6">.</span>append(get_step(event))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">log_steps</span>(<span style="color:#000">steps</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#000">attach_steps</span>(<span style="color:#000">steps</span>)
+</span></span><span style="display:flex;"><span>    log_steps(steps)
+</span></span><span style="display:flex;"><span>    attach_steps(steps)
 </span></span></code></pre></div><h2 id="пишем-тест">Пишем тест</h2>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#000">@pytest.fixture</span>()
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">def</span> <span style="color:#000">open_login_page</span>(<span style="color:#000">page</span>: <span style="color:#000">Page</span>) <span style="color:#000">-&gt;</span> <span style="color:#a90d91">None</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#000">page</span><span style="color:#000">.</span><span style="color:#000">goto</span>(<span style="color:#c41a16">&#34;https://www.saucedemo.com/&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>@pytest.fixture()
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">open_login_page</span>(page: Page) <span style="color:#ff79c6">-&gt;</span> <span style="color:#ff79c6">None</span>:
+</span></span><span style="display:flex;"><span>    page<span style="color:#ff79c6">.</span>goto(<span style="color:#f1fa8c">&#34;https://www.saucedemo.com/&#34;</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">def</span> <span style="color:#000">test_login</span>(<span style="color:#000">page</span>: <span style="color:#000">Page</span>, <span style="color:#000">open_login_page</span>) <span style="color:#000">-&gt;</span> <span style="color:#a90d91">None</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#000">page</span><span style="color:#000">.</span><span style="color:#000">fill</span>(<span style="color:#c41a16">&#34;#user-name&#34;</span>, <span style="color:#c41a16">&#34;standard_user&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#000">page</span><span style="color:#000">.</span><span style="color:#000">fill</span>(<span style="color:#c41a16">&#34;#password&#34;</span>, <span style="color:#c41a16">&#34;secret_sauce&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#000">page</span><span style="color:#000">.</span><span style="color:#000">click</span>(<span style="color:#c41a16">&#34;#login-button&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">test_login</span>(page: Page, open_login_page) <span style="color:#ff79c6">-&gt;</span> <span style="color:#ff79c6">None</span>:
+</span></span><span style="display:flex;"><span>    page<span style="color:#ff79c6">.</span>fill(<span style="color:#f1fa8c">&#34;#user-name&#34;</span>, <span style="color:#f1fa8c">&#34;standard_user&#34;</span>)
+</span></span><span style="display:flex;"><span>    page<span style="color:#ff79c6">.</span>fill(<span style="color:#f1fa8c">&#34;#password&#34;</span>, <span style="color:#f1fa8c">&#34;secret_sauce&#34;</span>)
+</span></span><span style="display:flex;"><span>    page<span style="color:#ff79c6">.</span>click(<span style="color:#f1fa8c">&#34;#login-button&#34;</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">def</span> <span style="color:#000">test_logout</span>(<span style="color:#000">page</span>: <span style="color:#000">Page</span>, <span style="color:#000">open_login_page</span>) <span style="color:#000">-&gt;</span> <span style="color:#a90d91">None</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#000">page</span><span style="color:#000">.</span><span style="color:#000">fill</span>(<span style="color:#c41a16">&#34;#user-name&#34;</span>, <span style="color:#c41a16">&#34;standard_user&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#000">page</span><span style="color:#000">.</span><span style="color:#000">fill</span>(<span style="color:#c41a16">&#34;#password&#34;</span>, <span style="color:#c41a16">&#34;secret_sauce&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#000">page</span><span style="color:#000">.</span><span style="color:#000">click</span>(<span style="color:#c41a16">&#34;#login-button&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#000">page</span><span style="color:#000">.</span><span style="color:#000">click</span>(<span style="color:#c41a16">&#34;#react-burger-menu-btn&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#000">page</span><span style="color:#000">.</span><span style="color:#000">click</span>(<span style="color:#c41a16">&#34;#logout_sidebar_link&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">test_logout</span>(page: Page, open_login_page) <span style="color:#ff79c6">-&gt;</span> <span style="color:#ff79c6">None</span>:
+</span></span><span style="display:flex;"><span>    page<span style="color:#ff79c6">.</span>fill(<span style="color:#f1fa8c">&#34;#user-name&#34;</span>, <span style="color:#f1fa8c">&#34;standard_user&#34;</span>)
+</span></span><span style="display:flex;"><span>    page<span style="color:#ff79c6">.</span>fill(<span style="color:#f1fa8c">&#34;#password&#34;</span>, <span style="color:#f1fa8c">&#34;secret_sauce&#34;</span>)
+</span></span><span style="display:flex;"><span>    page<span style="color:#ff79c6">.</span>click(<span style="color:#f1fa8c">&#34;#login-button&#34;</span>)
+</span></span><span style="display:flex;"><span>    page<span style="color:#ff79c6">.</span>click(<span style="color:#f1fa8c">&#34;#react-burger-menu-btn&#34;</span>)
+</span></span><span style="display:flex;"><span>    page<span style="color:#ff79c6">.</span>click(<span style="color:#f1fa8c">&#34;#logout_sidebar_link&#34;</span>)
 </span></span></code></pre></div><h2 id="запускаем">Запускаем</h2>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#000">pytest</span> <span style="color:#000">--</span><span style="color:#000">alluredir</span><span style="color:#000">=</span><span style="color:#000">allure</span><span style="color:#000">-</span><span style="color:#000">results</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pytest <span style="color:#ff79c6">--</span>alluredir<span style="color:#ff79c6">=</span>allure<span style="color:#ff79c6">-</span>results
 </span></span></code></pre></div><p>Будет дополнено.</p>
   
     <h2><a href="/victors-blog/posts/auto-logging-in-selene/">Автоматическое логгирование шагов в Selene</a></h2>
     <p><a href="https://github.com/yashaka/selene">Selene</a> - прекрасная библиотека, которая позволяет писать прекрасные автотесты. Ниже представлен рецепт приготовления автоматичесского логгирования шагов в Selene.</p>
 <h2 id="пилим-фикстурку">Пилим фикстурку</h2>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a90d91">import</span> <span style="color:#000">pytest</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">import</span> <span style="color:#000">allure_commons</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">from</span> <span style="color:#000">selene</span> <span style="color:#a90d91">import</span> <span style="color:#000">support</span>, <span style="color:#000">browser</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> pytest
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> allure_commons
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> selene <span style="color:#ff79c6">import</span> support, browser
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000">@pytest.fixture</span>(<span style="color:#000">autouse</span><span style="color:#000">=</span><span style="color:#a90d91">True</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">def</span> <span style="color:#000">browser_management</span>():
-</span></span><span style="display:flex;"><span>    <span style="color:#000">browser</span><span style="color:#000">.</span><span style="color:#000">config</span><span style="color:#000">.</span><span style="color:#000">_wait_decorator</span> <span style="color:#000">=</span> <span style="color:#000">support</span><span style="color:#000">.</span><span style="color:#000">_logging</span><span style="color:#000">.</span><span style="color:#000">wait_with</span>(
-</span></span><span style="display:flex;"><span>            <span style="color:#000">context</span><span style="color:#000">=</span><span style="color:#000">allure_commons</span><span style="color:#000">.</span><span style="color:#000">_allure</span><span style="color:#000">.</span><span style="color:#000">StepContext</span>
+</span></span><span style="display:flex;"><span>@pytest.fixture(autouse<span style="color:#ff79c6">=</span><span style="color:#ff79c6">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">browser_management</span>():
+</span></span><span style="display:flex;"><span>    browser<span style="color:#ff79c6">.</span>config<span style="color:#ff79c6">.</span>_wait_decorator <span style="color:#ff79c6">=</span> support<span style="color:#ff79c6">.</span>_logging<span style="color:#ff79c6">.</span>wait_with(
+</span></span><span style="display:flex;"><span>            context<span style="color:#ff79c6">=</span>allure_commons<span style="color:#ff79c6">.</span>_allure<span style="color:#ff79c6">.</span>StepContext
 </span></span><span style="display:flex;"><span>        )
-</span></span><span style="display:flex;"><span>    <span style="color:#a90d91">yield</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">browser</span><span style="color:#000">.</span><span style="color:#000">quit</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">yield</span>
+</span></span><span style="display:flex;"><span>    browser<span style="color:#ff79c6">.</span>quit()
 </span></span></code></pre></div><h2 id="пишем-тест">Пишем тест</h2>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a90d91">from</span> <span style="color:#000">selene.support.shared.jquery_style</span> <span style="color:#a90d91">import</span> <span style="color:#000">s</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">from</span> <span style="color:#000">selene</span> <span style="color:#a90d91">import</span> <span style="color:#000">browser</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">from</span> selene.support.shared.jquery_style <span style="color:#ff79c6">import</span> s
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> selene <span style="color:#ff79c6">import</span> browser
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">def</span> <span style="color:#000">test_login</span>():
-</span></span><span style="display:flex;"><span>    <span style="color:#000">browser</span><span style="color:#000">.</span><span style="color:#000">open</span>(<span style="color:#c41a16">&#34;https://www.saucedemo.com/&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#000">s</span>(<span style="color:#c41a16">&#39;[data-test=&#34;username&#34;]&#39;</span>)<span style="color:#000">.</span><span style="color:#000">type</span>(<span style="color:#c41a16">&#34;standard_user&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#000">s</span>(<span style="color:#c41a16">&#39;[data-test=&#34;password&#34;]&#39;</span>)<span style="color:#000">.</span><span style="color:#000">type</span>(<span style="color:#c41a16">&#34;secret_sauce&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#000">s</span>(<span style="color:#c41a16">&#39;[data-test=&#34;login-button&#34;]&#39;</span>)<span style="color:#000">.</span><span style="color:#000">click</span>()
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">test_login</span>():
+</span></span><span style="display:flex;"><span>    browser<span style="color:#ff79c6">.</span>open(<span style="color:#f1fa8c">&#34;https://www.saucedemo.com/&#34;</span>)
+</span></span><span style="display:flex;"><span>    s(<span style="color:#f1fa8c">&#39;[data-test=&#34;username&#34;]&#39;</span>)<span style="color:#ff79c6">.</span>type(<span style="color:#f1fa8c">&#34;standard_user&#34;</span>)
+</span></span><span style="display:flex;"><span>    s(<span style="color:#f1fa8c">&#39;[data-test=&#34;password&#34;]&#39;</span>)<span style="color:#ff79c6">.</span>type(<span style="color:#f1fa8c">&#34;secret_sauce&#34;</span>)
+</span></span><span style="display:flex;"><span>    s(<span style="color:#f1fa8c">&#39;[data-test=&#34;login-button&#34;]&#39;</span>)<span style="color:#ff79c6">.</span>click()
 </span></span></code></pre></div><h2 id="запускаем">Запускаем</h2>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pytest --alluredir<span style="color:#000">=</span>allure-results
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pytest --alluredir<span style="color:#ff79c6">=</span>allure-results
 </span></span></code></pre></div><h2 id="наслаждаемся">Наслаждаемся</h2>
 <p><img src="./result-image.png" alt="Пример Allure отчета"></p>
 <p>Будет дополнено.</p>
   
     <h2><a href="/victors-blog/posts/get-all-data-from-faker/">Достаем все возможные данные из faker</a></h2>
     <h2 id="пишем-код">Пишем код</h2>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a90d91">from</span> <span style="color:#000">importlib</span> <span style="color:#a90d91">import</span> <span style="color:#000">import_module</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">from</span> <span style="color:#000">typing</span> <span style="color:#a90d91">import</span> <span style="color:#000">Type</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">from</span> <span style="color:#000">types</span> <span style="color:#a90d91">import</span> <span style="color:#000">FunctionType</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">import</span> <span style="color:#000">pkgutil</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">from</span> <span style="color:#000">faker.providers</span> <span style="color:#a90d91">import</span> <span style="color:#000">company</span>, <span style="color:#000">person</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">import</span> <span style="color:#000">inspect</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">from</span> <span style="color:#000">faker</span> <span style="color:#a90d91">import</span> <span style="color:#000">Faker</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">from</span> importlib <span style="color:#ff79c6">import</span> import_module
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> typing <span style="color:#ff79c6">import</span> Type
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> types <span style="color:#ff79c6">import</span> FunctionType
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> pkgutil
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> faker.providers <span style="color:#ff79c6">import</span> company, person
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> inspect
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> faker <span style="color:#ff79c6">import</span> Faker
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">def</span> <span style="color:#000">get_public_methods_of</span>(<span style="color:#5b269a">cls</span>: <span style="color:#000">Type</span>):
-</span></span><span style="display:flex;"><span>    <span style="color:#a90d91">return</span> [
-</span></span><span style="display:flex;"><span>        <span style="color:#000">name</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#a90d91">for</span> <span style="color:#000">name</span>, <span style="color:#000">attr</span> <span style="color:#000">in</span> <span style="color:#a90d91">vars</span>(<span style="color:#5b269a">cls</span>)<span style="color:#000">.</span><span style="color:#000">items</span>()
-</span></span><span style="display:flex;"><span>        <span style="color:#a90d91">if</span> <span style="color:#a90d91">isinstance</span>(<span style="color:#000">attr</span>, <span style="color:#000">FunctionType</span>) <span style="color:#000">and</span> <span style="color:#000">not</span> <span style="color:#000">name</span><span style="color:#000">.</span><span style="color:#000">startswith</span>(<span style="color:#c41a16">&#34;_&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">get_public_methods_of</span>(<span style="font-style:italic">cls</span>: Type):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> [
+</span></span><span style="display:flex;"><span>        name
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">for</span> name, attr <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">vars</span>(<span style="font-style:italic">cls</span>)<span style="color:#ff79c6">.</span>items()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">isinstance</span>(attr, FunctionType) <span style="color:#ff79c6">and</span> <span style="color:#ff79c6">not</span> name<span style="color:#ff79c6">.</span>startswith(<span style="color:#f1fa8c">&#34;_&#34;</span>)
 </span></span><span style="display:flex;"><span>    ]
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">def</span> <span style="color:#000">get_all_modules_from</span>(<span style="color:#000">package</span>):
-</span></span><span style="display:flex;"><span>    <span style="color:#a90d91">return</span> [<span style="color:#000">module</span><span style="color:#000">.</span><span style="color:#000">name</span> <span style="color:#a90d91">for</span> <span style="color:#000">module</span> <span style="color:#000">in</span> <span style="color:#000">pkgutil</span><span style="color:#000">.</span><span style="color:#000">iter_modules</span>(<span style="color:#000">package</span><span style="color:#000">.</span><span style="color:#000">__path__</span>)]
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">get_all_modules_from</span>(package):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> [module<span style="color:#ff79c6">.</span>name <span style="color:#ff79c6">for</span> module <span style="color:#ff79c6">in</span> pkgutil<span style="color:#ff79c6">.</span>iter_modules(package<span style="color:#ff79c6">.</span>__path__)]
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">def</span> <span style="color:#000">get_class_from_path</span>(<span style="color:#000">module_path</span>: <span style="color:#a90d91">str</span>, <span style="color:#000">class_name</span>: <span style="color:#a90d91">str</span>):
-</span></span><span style="display:flex;"><span>    <span style="color:#000">module</span> <span style="color:#000">=</span> <span style="color:#000">import_module</span>(<span style="color:#000">module_path</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#a90d91">return</span> <span style="color:#a90d91">getattr</span>(<span style="color:#000">module</span>, <span style="color:#000">class_name</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">get_class_from_path</span>(module_path: <span style="color:#8be9fd;font-style:italic">str</span>, class_name: <span style="color:#8be9fd;font-style:italic">str</span>):
+</span></span><span style="display:flex;"><span>    module <span style="color:#ff79c6">=</span> import_module(module_path)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">getattr</span>(module, class_name)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">def</span> <span style="color:#000">get_all_provider_methods</span>(<span style="color:#000">package</span>, <span style="color:#000">*</span><span style="color:#000">exclude_modules</span>):
-</span></span><span style="display:flex;"><span>    <span style="color:#000">parent_provider_methods</span> <span style="color:#000">=</span> <span style="color:#000">get_public_methods_of</span>(<span style="color:#000">package</span><span style="color:#000">.</span><span style="color:#000">Provider</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">get_all_provider_methods</span>(package, <span style="color:#ff79c6">*</span>exclude_modules):
+</span></span><span style="display:flex;"><span>    parent_provider_methods <span style="color:#ff79c6">=</span> get_public_methods_of(package<span style="color:#ff79c6">.</span>Provider)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">result</span> <span style="color:#000">=</span> []
+</span></span><span style="display:flex;"><span>    result <span style="color:#ff79c6">=</span> []
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a90d91">for</span> <span style="color:#000">module_name</span> <span style="color:#000">in</span> <span style="color:#000">get_all_modules_from</span>(<span style="color:#000">package</span>):
-</span></span><span style="display:flex;"><span>        <span style="color:#a90d91">if</span> <span style="color:#000">module_name</span> <span style="color:#000">in</span> <span style="color:#000">exclude_modules</span>:
-</span></span><span style="display:flex;"><span>            <span style="color:#a90d91">continue</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> module_name <span style="color:#ff79c6">in</span> get_all_modules_from(package):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> module_name <span style="color:#ff79c6">in</span> exclude_modules:
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">continue</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#000">module_path</span> <span style="color:#000">=</span> <span style="color:#c41a16">f</span><span style="color:#c41a16">&#34;</span><span style="color:#c41a16">{</span><span style="color:#000">package</span><span style="color:#000">.</span><span style="color:#000">__name__</span><span style="color:#c41a16">}</span><span style="color:#c41a16">.</span><span style="color:#c41a16">{</span><span style="color:#000">module_name</span><span style="color:#c41a16">}</span><span style="color:#c41a16">&#34;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#000">child_provider</span> <span style="color:#000">=</span> <span style="color:#000">get_class_from_path</span>(<span style="color:#000">module_path</span>, <span style="color:#c41a16">&#34;Provider&#34;</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#000">methods</span> <span style="color:#000">=</span> <span style="color:#a90d91">set</span>(<span style="color:#000">get_public_methods_of</span>(<span style="color:#000">child_provider</span>) <span style="color:#000">+</span> <span style="color:#000">parent_provider_methods</span>)
+</span></span><span style="display:flex;"><span>        module_path <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">{</span>package<span style="color:#ff79c6">.</span><span style="color:#8be9fd;font-style:italic">__name__</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">.</span><span style="color:#f1fa8c">{</span>module_name<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>
+</span></span><span style="display:flex;"><span>        child_provider <span style="color:#ff79c6">=</span> get_class_from_path(module_path, <span style="color:#f1fa8c">&#34;Provider&#34;</span>)
+</span></span><span style="display:flex;"><span>        methods <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">set</span>(get_public_methods_of(child_provider) <span style="color:#ff79c6">+</span> parent_provider_methods)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#000">result</span><span style="color:#000">.</span><span style="color:#000">append</span>((<span style="color:#000">module_name</span>, <span style="color:#000">methods</span>))
+</span></span><span style="display:flex;"><span>        result<span style="color:#ff79c6">.</span>append((module_name, methods))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a90d91">return</span> <span style="color:#000">result</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> result
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">def</span> <span style="color:#000">get_all_provider_method_results</span>(<span style="color:#000">all_provider_methods_list</span>):
-</span></span><span style="display:flex;"><span>    <span style="color:#000">results</span> <span style="color:#000">=</span> []
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">get_all_provider_method_results</span>(all_provider_methods_list):
+</span></span><span style="display:flex;"><span>    results <span style="color:#ff79c6">=</span> []
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a90d91">for</span> <span style="color:#000">locale</span>, <span style="color:#000">methods</span> <span style="color:#000">in</span> <span style="color:#000">all_provider_methods_list</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#000">faker</span> <span style="color:#000">=</span> <span style="color:#000">Faker</span>(<span style="color:#000">locale</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#a90d91">for</span> <span style="color:#000">method_name</span> <span style="color:#000">in</span> <span style="color:#000">methods</span>:
-</span></span><span style="display:flex;"><span>            <span style="color:#000">method</span> <span style="color:#000">=</span> <span style="color:#a90d91">getattr</span>(<span style="color:#000">faker</span>, <span style="color:#000">method_name</span>)
-</span></span><span style="display:flex;"><span>            <span style="color:#000">sig</span> <span style="color:#000">=</span> <span style="color:#000">inspect</span><span style="color:#000">.</span><span style="color:#000">signature</span>(<span style="color:#000">method</span>)
-</span></span><span style="display:flex;"><span>            <span style="color:#000">required_args</span> <span style="color:#000">=</span> <span style="color:#a90d91">len</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> locale, methods <span style="color:#ff79c6">in</span> all_provider_methods_list:
+</span></span><span style="display:flex;"><span>        faker <span style="color:#ff79c6">=</span> Faker(locale)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">for</span> method_name <span style="color:#ff79c6">in</span> methods:
+</span></span><span style="display:flex;"><span>            method <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">getattr</span>(faker, method_name)
+</span></span><span style="display:flex;"><span>            sig <span style="color:#ff79c6">=</span> inspect<span style="color:#ff79c6">.</span>signature(method)
+</span></span><span style="display:flex;"><span>            required_args <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">len</span>(
 </span></span><span style="display:flex;"><span>                [
-</span></span><span style="display:flex;"><span>                    <span style="color:#000">p</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#a90d91">for</span> <span style="color:#000">p</span> <span style="color:#000">in</span> <span style="color:#000">sig</span><span style="color:#000">.</span><span style="color:#000">parameters</span><span style="color:#000">.</span><span style="color:#000">values</span>()
-</span></span><span style="display:flex;"><span>                    <span style="color:#a90d91">if</span> <span style="color:#000">p</span><span style="color:#000">.</span><span style="color:#000">default</span> <span style="color:#000">==</span> <span style="color:#000">inspect</span><span style="color:#000">.</span><span style="color:#000">Parameter</span><span style="color:#000">.</span><span style="color:#000">empty</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#000">and</span> <span style="color:#000">p</span><span style="color:#000">.</span><span style="color:#000">kind</span> <span style="color:#000">==</span> <span style="color:#000">p</span><span style="color:#000">.</span><span style="color:#000">POSITIONAL_OR_KEYWORD</span>
+</span></span><span style="display:flex;"><span>                    p
+</span></span><span style="display:flex;"><span>                    <span style="color:#ff79c6">for</span> p <span style="color:#ff79c6">in</span> sig<span style="color:#ff79c6">.</span>parameters<span style="color:#ff79c6">.</span>values()
+</span></span><span style="display:flex;"><span>                    <span style="color:#ff79c6">if</span> p<span style="color:#ff79c6">.</span>default <span style="color:#ff79c6">==</span> inspect<span style="color:#ff79c6">.</span>Parameter<span style="color:#ff79c6">.</span>empty
+</span></span><span style="display:flex;"><span>                    <span style="color:#ff79c6">and</span> p<span style="color:#ff79c6">.</span>kind <span style="color:#ff79c6">==</span> p<span style="color:#ff79c6">.</span>POSITIONAL_OR_KEYWORD
 </span></span><span style="display:flex;"><span>                ]
 </span></span><span style="display:flex;"><span>            )
-</span></span><span style="display:flex;"><span>            <span style="color:#a90d91">if</span> <span style="color:#000">required_args</span> <span style="color:#000">&gt;</span> <span style="color:#1c01ce">0</span>:
-</span></span><span style="display:flex;"><span>                <span style="color:#a90d91">continue</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#000">results</span><span style="color:#000">.</span><span style="color:#000">append</span>((<span style="color:#000">method_name</span>, <span style="color:#000">method</span>()))
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> required_args <span style="color:#ff79c6">&gt;</span> <span style="color:#bd93f9">0</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">continue</span>
+</span></span><span style="display:flex;"><span>            results<span style="color:#ff79c6">.</span>append((method_name, method()))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a90d91">return</span> <span style="color:#000">results</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> results
 </span></span></code></pre></div><h2 id="используем">Используем</h2>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a90d91">print</span>(<span style="color:#000">get_all_provider_method_results</span>(<span style="color:#000">get_all_provider_methods</span>(<span style="color:#000">company</span>)))
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">print</span>(<span style="color:#000">get_all_provider_method_results</span>(<span style="color:#000">get_all_provider_methods</span>(<span style="color:#000">person</span>, <span style="color:#c41a16">&#39;es_AR&#39;</span>)))
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">print</span>(get_all_provider_method_results(get_all_provider_methods(company)))
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">print</span>(get_all_provider_method_results(get_all_provider_methods(person, <span style="color:#f1fa8c">&#39;es_AR&#39;</span>)))
 </span></span></code></pre></div><p>Будет дополнено.</p>
   
     <h2><a href="/victors-blog/posts/different-envs/">Разные envs под разные окружения</a></h2>
     <h2 id="ставим-зависимости">Ставим зависимости</h2>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#000">poetry</span> <span style="color:#000">add</span> <span style="color:#000">pydantic</span><span style="color:#000">-</span><span style="color:#000">settings</span> <span style="color:#000">pytest</span><span style="color:#000">-</span><span style="color:#000">playwright</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>poetry add pydantic<span style="color:#ff79c6">-</span>settings pytest<span style="color:#ff79c6">-</span>playwright
 </span></span></code></pre></div><h2 id="создаем-env-файлы">Создаем .env файлы</h2>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#000">mkdir</span> <span style="color:#000">env</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">touch</span> <span style="color:#000">env</span><span style="color:#000">/.</span><span style="color:#000">env</span><span style="color:#000">.</span><span style="color:#000">stage</span> <span style="color:#000">env</span><span style="color:#000">/.</span><span style="color:#000">env</span><span style="color:#000">.</span><span style="color:#000">prod</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>mkdir env
+</span></span><span style="display:flex;"><span>touch env<span style="color:#ff79c6">/.</span>env<span style="color:#ff79c6">.</span>stage env<span style="color:#ff79c6">/.</span>env<span style="color:#ff79c6">.</span>prod
 </span></span></code></pre></div><p>В .env.stage кладем</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#000">username</span><span style="color:#000">=</span><span style="color:#c41a16">&#34;standard_user&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">password</span><span style="color:#000">=</span><span style="color:#c41a16">&#34;secret_sauce&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">url</span><span style="color:#000">=</span><span style="color:#c41a16">&#34;https://www.saucedemo.com/v1/index.html&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>username<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;standard_user&#34;</span>
+</span></span><span style="display:flex;"><span>password<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;secret_sauce&#34;</span>
+</span></span><span style="display:flex;"><span>url<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;https://www.saucedemo.com/v1/index.html&#34;</span>
 </span></span></code></pre></div><p>В .env.prod кладем</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#000">username</span><span style="color:#000">=</span><span style="color:#c41a16">&#34;standard_user&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">password</span><span style="color:#000">=</span><span style="color:#c41a16">&#34;incorrect_password&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">url</span><span style="color:#000">=</span><span style="color:#c41a16">&#34;https://www.saucedemo.com/v1/index.html&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>username<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;standard_user&#34;</span>
+</span></span><span style="display:flex;"><span>password<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;incorrect_password&#34;</span>
+</span></span><span style="display:flex;"><span>url<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;https://www.saucedemo.com/v1/index.html&#34;</span>
 </span></span></code></pre></div><h2 id="описываем-класс-settings">Описываем класс Settings</h2>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a90d91">from</span> <span style="color:#000">pydantic_settings</span> <span style="color:#a90d91">import</span> <span style="color:#000">BaseSettings</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">from</span> pydantic_settings <span style="color:#ff79c6">import</span> BaseSettings
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">class</span> <span style="color:#3f6e75">Settings</span>(<span style="color:#000">BaseSettings</span>):
-</span></span><span style="display:flex;"><span>    <span style="color:#000">username</span>: <span style="color:#a90d91">str</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">password</span>: <span style="color:#a90d91">str</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">url</span>: <span style="color:#a90d91">str</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">Settings</span>(BaseSettings):
+</span></span><span style="display:flex;"><span>    username: <span style="color:#8be9fd;font-style:italic">str</span>
+</span></span><span style="display:flex;"><span>    password: <span style="color:#8be9fd;font-style:italic">str</span>
+</span></span><span style="display:flex;"><span>    url: <span style="color:#8be9fd;font-style:italic">str</span>
 </span></span></code></pre></div><h2 id="пишем-фикстурку-для-получения-данных">Пишем фикстурку для получения данных</h2>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a90d91">import</span> <span style="color:#000">pytest</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">from</span> <span style="color:#000">pathlib</span> <span style="color:#a90d91">import</span> <span style="color:#000">Path</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">from</span> <span style="color:#000">config</span> <span style="color:#a90d91">import</span> <span style="color:#000">Settings</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> pytest
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> pathlib <span style="color:#ff79c6">import</span> Path
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> config <span style="color:#ff79c6">import</span> Settings
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">def</span> <span style="color:#000">pytest_addoption</span>(<span style="color:#000">parser</span>):
-</span></span><span style="display:flex;"><span>    <span style="color:#000">parser</span><span style="color:#000">.</span><span style="color:#000">addoption</span>(<span style="color:#c41a16">&#34;--env&#34;</span>, <span style="color:#000">action</span><span style="color:#000">=</span><span style="color:#c41a16">&#34;store&#34;</span>, <span style="color:#000">default</span><span style="color:#000">=</span><span style="color:#c41a16">&#34;stage&#34;</span>, <span style="color:#000">help</span><span style="color:#000">=</span><span style="color:#c41a16">&#34;stage 0r prod&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">pytest_addoption</span>(parser):
+</span></span><span style="display:flex;"><span>    parser<span style="color:#ff79c6">.</span>addoption(<span style="color:#f1fa8c">&#34;--env&#34;</span>, action<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;store&#34;</span>, default<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;stage&#34;</span>, help<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;stage 0r prod&#34;</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000">@pytest.fixture</span>(<span style="color:#000">scope</span><span style="color:#000">=</span><span style="color:#c41a16">&#34;session&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">def</span> <span style="color:#000">settings</span>(<span style="color:#000">request</span>: <span style="color:#000">pytest</span><span style="color:#000">.</span><span style="color:#000">FixtureRequest</span>):
-</span></span><span style="display:flex;"><span>    <span style="color:#000">env</span> <span style="color:#000">=</span> <span style="color:#000">request</span><span style="color:#000">.</span><span style="color:#000">config</span><span style="color:#000">.</span><span style="color:#000">getoption</span>(<span style="color:#c41a16">&#34;--env&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#000">env_file</span> <span style="color:#000">=</span> <span style="color:#c41a16">f</span><span style="color:#c41a16">&#34;.env.</span><span style="color:#c41a16">{</span><span style="color:#000">env</span><span style="color:#c41a16">}</span><span style="color:#c41a16">&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">env_path</span> <span style="color:#000">=</span> <span style="color:#000">Path</span>(<span style="color:#000">__file__</span>)<span style="color:#000">.</span><span style="color:#000">parent</span> <span style="color:#000">/</span> <span style="color:#c41a16">&#34;env&#34;</span> <span style="color:#000">/</span> <span style="color:#000">env_file</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a90d91">if</span> <span style="color:#000">not</span> <span style="color:#000">env_path</span><span style="color:#000">.</span><span style="color:#000">exists</span>():
-</span></span><span style="display:flex;"><span>        <span style="color:#a90d91">raise</span> <span style="color:#000">FileNotFoundError</span>(<span style="color:#c41a16">f</span><span style="color:#c41a16">&#34;Environment file </span><span style="color:#c41a16">{</span><span style="color:#000">env_path</span><span style="color:#c41a16">}</span><span style="color:#c41a16"> not found&#34;</span>)
+</span></span><span style="display:flex;"><span>@pytest.fixture(scope<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;session&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">settings</span>(request: pytest<span style="color:#ff79c6">.</span>FixtureRequest):
+</span></span><span style="display:flex;"><span>    env <span style="color:#ff79c6">=</span> request<span style="color:#ff79c6">.</span>config<span style="color:#ff79c6">.</span>getoption(<span style="color:#f1fa8c">&#34;--env&#34;</span>)
+</span></span><span style="display:flex;"><span>    env_file <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;.env.</span><span style="color:#f1fa8c">{</span>env<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>
+</span></span><span style="display:flex;"><span>    env_path <span style="color:#ff79c6">=</span> Path(<span style="color:#8be9fd;font-style:italic">__file__</span>)<span style="color:#ff79c6">.</span>parent <span style="color:#ff79c6">/</span> <span style="color:#f1fa8c">&#34;env&#34;</span> <span style="color:#ff79c6">/</span> env_file
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">not</span> env_path<span style="color:#ff79c6">.</span>exists():
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">raise</span> FileNotFoundError(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;Environment file </span><span style="color:#f1fa8c">{</span>env_path<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> not found&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a90d91">return</span> <span style="color:#000">Settings</span>(<span style="color:#000">_env_file</span><span style="color:#000">=</span><span style="color:#000">env_path</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> Settings(_env_file<span style="color:#ff79c6">=</span>env_path)
 </span></span></code></pre></div><h2 id="пишем-тест">Пишем тест</h2>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a90d91">from</span> <span style="color:#000">playwright.sync_api</span> <span style="color:#a90d91">import</span> <span style="color:#000">Page</span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">from</span> <span style="color:#000">config</span> <span style="color:#a90d91">import</span> <span style="color:#000">Settings</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">from</span> playwright.sync_api <span style="color:#ff79c6">import</span> Page
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> config <span style="color:#ff79c6">import</span> Settings
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a90d91">def</span> <span style="color:#000">test_login</span>(<span style="color:#000">page</span>: <span style="color:#000">Page</span>, <span style="color:#000">settings</span>: <span style="color:#000">Settings</span>):
-</span></span><span style="display:flex;"><span>    <span style="color:#000">page</span><span style="color:#000">.</span><span style="color:#000">goto</span>(<span style="color:#000">settings</span><span style="color:#000">.</span><span style="color:#000">url</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#000">page</span><span style="color:#000">.</span><span style="color:#000">locator</span>(<span style="color:#c41a16">&#34;#user-name&#34;</span>)<span style="color:#000">.</span><span style="color:#000">fill</span>(<span style="color:#000">settings</span><span style="color:#000">.</span><span style="color:#000">username</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#000">page</span><span style="color:#000">.</span><span style="color:#000">locator</span>(<span style="color:#c41a16">&#34;#password&#34;</span>)<span style="color:#000">.</span><span style="color:#000">fill</span>(<span style="color:#000">settings</span><span style="color:#000">.</span><span style="color:#000">password</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#000">page</span><span style="color:#000">.</span><span style="color:#000">locator</span>(<span style="color:#c41a16">&#34;#login-button&#34;</span>)<span style="color:#000">.</span><span style="color:#000">click</span>()
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">test_login</span>(page: Page, settings: Settings):
+</span></span><span style="display:flex;"><span>    page<span style="color:#ff79c6">.</span>goto(settings<span style="color:#ff79c6">.</span>url)
+</span></span><span style="display:flex;"><span>    page<span style="color:#ff79c6">.</span>locator(<span style="color:#f1fa8c">&#34;#user-name&#34;</span>)<span style="color:#ff79c6">.</span>fill(settings<span style="color:#ff79c6">.</span>username)
+</span></span><span style="display:flex;"><span>    page<span style="color:#ff79c6">.</span>locator(<span style="color:#f1fa8c">&#34;#password&#34;</span>)<span style="color:#ff79c6">.</span>fill(settings<span style="color:#ff79c6">.</span>password)
+</span></span><span style="display:flex;"><span>    page<span style="color:#ff79c6">.</span>locator(<span style="color:#f1fa8c">&#34;#login-button&#34;</span>)<span style="color:#ff79c6">.</span>click()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#177500"># Нужно проверить что мы попали на нужную страницу</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a90d91">assert</span> <span style="color:#000">page</span><span style="color:#000">.</span><span style="color:#000">url</span> <span style="color:#000">==</span> <span style="color:#c41a16">&#34;https://www.saucedemo.com/inventory.html&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># Нужно проверить что мы попали на нужную страницу</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">assert</span> page<span style="color:#ff79c6">.</span>url <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;https://www.saucedemo.com/inventory.html&#34;</span>
 </span></span></code></pre></div><h2 id="запускаем">Запускаем</h2>
 <p>Будет дополнено.</p>
   
