@@ -126,7 +126,6 @@ body {
 }
 
 img {
-    margin: 40px 0;
     max-width: 100%;
 }
 
@@ -380,8 +379,6 @@ img {
     grid-column: 3;
 }
 
-
-/* ===== ЛИПНУЩЕЕ ОГЛАВЛЕНИЕ ===== */
 .post-composition {
     position: relative;
 }
@@ -399,7 +396,6 @@ img {
     transition: all 0.2s ease;
 }
 
-/* Стилизация скролла */
 .toc-nav::-webkit-scrollbar {
     width: 6px;
 }
@@ -413,7 +409,6 @@ img {
     border-radius: 3px;
 }
 
-/* Отключаем на планшетах и мобилках */
 @media (max-width: 1024px) {
     .post-composition {
         position: static;
