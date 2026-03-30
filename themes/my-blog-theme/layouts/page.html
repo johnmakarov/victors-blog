@@ -2,6 +2,7 @@
   <div class="posts-header">
     <span>Дата /</span>
     <span>Название</span>
+    <span>Состав</span>
   </div>
   
   <div class="posts-container">
@@ -9,13 +10,14 @@
       <div class="post-data">{{ .Date.Format "02.01.2006" }}</div>
       <h2>{{ .LinkTitle }}</h2>
       
-      <div class="post-description">
-        <div class="toc-wrapper">
-          <nav class="toc-nav">
-            {{ .TableOfContents }}
-          </nav>
-        </div>
+      <div class="post-content">
         {{ .Content }}
+      </div>
+
+      <div class="post-composition">
+        <nav class="toc-nav">
+          {{ .TableOfContents }}
+        </nav>
       </div>
     </div>
   </div>
