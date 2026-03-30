@@ -76,7 +76,7 @@ def get_all_provider_method_results(all_provider_methods_list):
 
 ## Используем
 
-```
+```python
 print(get_all_provider_method_results(get_all_provider_methods(company)))
 print(get_all_provider_method_results(get_all_provider_methods(person, 'es_AR')))
 ```

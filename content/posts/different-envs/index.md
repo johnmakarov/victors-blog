@@ -25,7 +25,7 @@ url="https://www.saucedemo.com/v1/index.html"
 ```
 
 В .env.prod кладем 
-```
+```python
 username="standard_user"
 password="incorrect_password"
 url="https://www.saucedemo.com/v1/index.html"
@@ -68,7 +68,7 @@ def settings(request: pytest.FixtureRequest):
 
 ## Пишем тест
 
-```
+```python
 from playwright.sync_api import Page
 from config import Settings
 
