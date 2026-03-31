@@ -5,7 +5,7 @@
   <a class="main-page-button yet-button" href="{{ .Site.Home.RelPermalink }}">На главную</a>
 {{ end }}
   <a class="telegram-button" href="https://t.me/spoon_of_quality/12">Telegram</a>
-  <a class="about-button" href="https://t.me/spoon_of_quality/12">Обо мне</a>
+  <a class="about-button" href="{{ "posts/about-me" | relURL }}">Обо мне</a>
   {{ if not .IsPage }}
   <a class="yet-button" href="https://t.me/spoon_of_quality/12">Еще одна кнопка</a>
   {{ end }}
