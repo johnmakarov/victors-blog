@@ -99,7 +99,7 @@ h1 {
 
 .post-item h3 {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 500;
     color: black;
     margin: 0 0 0 0;
@@ -400,4 +400,14 @@ pre {
     .toc-nav {
         display: none;
     }
+}
+
+.post-content h2 + h3 {
+    margin-top: 20px;  /* отступ когда h3 идет сразу после h2 */
+}
+
+img[src*="portrait-1-resize.webp"] {
+    height: 500px;
+    object-fit: cover;
+    border-radius: 30px;
 }
