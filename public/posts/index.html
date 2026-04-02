@@ -35,11 +35,57 @@
   <h1>Posts</h1>
   
   
+    <h2><a href="/victors-blog/posts/fail-test-when-see-error-in-console/">Видим ошибку в консоли -&gt; роняем тест</a></h2>
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> pytest
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> ui.core <span style="color:#ff79c6">import</span> browser
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> playwright.sync_api <span style="color:#ff79c6">import</span> ConsoleMessage
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> re
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@pytest.fixture(scope<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;function&#34;</span>, autouse<span style="color:#ff79c6">=</span><span style="color:#ff79c6">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">capture_console</span>():
+</span></span><span style="display:flex;"><span>    console_messages <span style="color:#ff79c6">=</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">on_console</span>(msg: ConsoleMessage):
+</span></span><span style="display:flex;"><span>        console_messages<span style="color:#ff79c6">.</span>append(msg)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    browser<span style="color:#ff79c6">.</span>page<span style="color:#ff79c6">.</span>on(<span style="color:#f1fa8c">&#34;console&#34;</span>, on_console)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">yield</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    check_console_errors(console_messages)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>CONSOLE_ERROR_EXCEPTIONS <span style="color:#ff79c6">=</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">check_console_errors</span>(console_messages: <span style="color:#8be9fd;font-style:italic">list</span>[ConsoleMessage] <span style="color:#ff79c6">|</span> <span style="color:#ff79c6">None</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> console_messages:
+</span></span><span style="display:flex;"><span>        errors <span style="color:#ff79c6">=</span> [msg <span style="color:#ff79c6">for</span> msg <span style="color:#ff79c6">in</span> console_messages <span style="color:#ff79c6">if</span> msg<span style="color:#ff79c6">.</span>type<span style="color:#ff79c6">.</span>lower() <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;error&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">not</span> errors:
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">None</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">for</span> error <span style="color:#ff79c6">in</span> errors:
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">not</span> <span style="color:#8be9fd;font-style:italic">any</span>(
+</span></span><span style="display:flex;"><span>                re<span style="color:#ff79c6">.</span>search(pattern, error<span style="color:#ff79c6">.</span>text, re<span style="color:#ff79c6">.</span>IGNORECASE)
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">for</span> pattern <span style="color:#ff79c6">in</span> CONSOLE_ERROR_EXCEPTIONS
+</span></span><span style="display:flex;"><span>            ):
+</span></span><span style="display:flex;"><span>                pytest<span style="color:#ff79c6">.</span>fail(
+</span></span><span style="display:flex;"><span>                    <span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;Обнаружена ошибка в консоли браузера (</span><span style="color:#f1fa8c">{</span>error<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">)&#34;</span>
+</span></span><span style="display:flex;"><span>                )
+</span></span></code></pre></div>
+  
     <h2><a href="/victors-blog/posts/about-me/">Обо мне</a></h2>
     <h2 id="основное">Основное</h2>
-<p>QA Automation Engineer с 5-летним опытом в автоматизации тестирования. Специализируюсь на внедрении автотестов и оптимизации процессов тестирования. Имею опыт работы в качестве единственного тестировщика так и в качестве QA Lead. Ценю качественное асинхронное взаимодействие в команде, хороший dx, бережливое управление.</p>
-<p><img src="./portrait-1.jpg" alt="Фотография"></p>
+<p>QA Engineer с 5-летним опытом в автоматизации тестирования. Специализируюсь на внедрении автотестов и оптимизации процессов тестирования. Имею опыт работы в качестве единственного тестировщика так и в качестве QA Lead. Ценю качественное асинхронное взаимодействие в команде, хороший dx, бережливое управление.</p>
+<p><img src="./portrait-1.webp" alt="Фотография"></p>
 <h2 id="что-использую-в-работе">Что использую в работе</h2>
+<h4 id="тестирование">Тестирование</h4>
+<p><strong>API</strong> httpx, curlify, deepdiff, pydantic, jsonschema, schemathesis, locust и другое.
+<strong>UI</strong> Playwright, Selenium, Selene, Selenoid, Appium
+<strong>Общее</strong> pytest + плагины, allure-pytest, django test, faker, factoryboy и другое.
+<strong>TMS</strong> Allure TestOps, TestIT, Qase</p>
   
     <h2><a href="/victors-blog/posts/auto-logging-in-playwright/">Автоматическое логгирование шагов в Playwright</a></h2>
     <p><a href="https://github.com/microsoft/playwright-python">Playwright</a> - прекрасная библиотека, которая позволяет писать прекрасные автотесты. Ниже представлен рецепт приготовления автоматичесского логгирования шагов в Playwright.</p>
