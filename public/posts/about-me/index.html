@@ -47,6 +47,86 @@
         <h2 id="основное">Основное</h2>
 <p>QA Engineer с 5-летним опытом в автоматизации тестирования. Специализируюсь на внедрении автотестов и оптимизации процессов тестирования. Имею опыт работы в качестве единственного тестировщика так и в качестве QA Lead. Ценю качественное асинхронное взаимодействие в команде, хороший dx, бережливое управление.</p>
 <p><img src="./portrait-1-resize.webp" alt="Фотография"></p>
+<h2 id="чуть-о-том-как-работаю">Чуть о том как работаю</h2>
+<p>Стараюсь писать автотесты, подключать ручное тестирование как можно раньше начиная с постановки задачи, обсуждая необходимые компоненты, которые понадобятся при написании автотеста, ручном тестировании, для коректной работы фичи. В дальнейшем прогоняя тестовый набор вместе с завершением фичи или фикса бага. Автотесты для фича веток запускаю только для определенного функционала и окружения, чтобы тесты разработчиков проходили быстрее. Очень внимательно слежу за процентом нестабильных тестов, помогаю дорабатывать тесты и функционал для точного прохождения тестов. Ручное тестирование стараюсь проводить только как исследовательское тестирование, но при низком покрытии автотестами, конечно же, возможно и регрессионное тестирование (и связанные с ним виды тестирования).</p>
+<p>Есть опыт в написании и поддержке различных видов автотестов (ui, api, unit). Есть небольшой опыт в разработке бэкенда и фронтенда.</p>
+<p><strong>UI</strong></p>
+<p>Автотесты писал, в основном на Python используя Playwright, Selene, Selenium + различные точечные библиотеки. Есть небольшой проектный опыт с использованием TS + Playwright и так же Cypress.</p>
+<p>Последний год активно использую Playwright + свою небольшую обертку для более питоничного стиля и удобного автоматического логгирования происходящего в Allure, стандартизации шагов и нескольких небольших точечных улучшений.</p>
+<p>Очень простой тест выглядит подобным образом</p>
+<p>test_login.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">from</span> ui.components.auth <span style="color:#ff79c6">import</span> login_form
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> ui.components <span style="color:#ff79c6">import</span> header
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> ui.components <span style="color:#ff79c6">import</span> profile_tab
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> ui.helpers <span style="color:#ff79c6">import</span> element_with_text
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> ui.components.auth <span style="color:#ff79c6">import</span> forgot_password
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> ui.components.auth <span style="color:#ff79c6">import</span> register_form
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> ui.core <span style="color:#ff79c6">import</span> be
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> ui.marks <span style="color:#ff79c6">import</span> Pages
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> config <span style="color:#ff79c6">import</span> Settings
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> pytest
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@Pages.open_login_page
+</span></span><span style="display:flex;"><span>@pytest.mark.noauth
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">test_login</span>(settings: Settings):
+</span></span><span style="display:flex;"><span>    login_form<span style="color:#ff79c6">.</span>as_user(username<span style="color:#ff79c6">=</span>settings<span style="color:#ff79c6">.</span>user_email, password<span style="color:#ff79c6">=</span>settings<span style="color:#ff79c6">.</span>user_password)
+</span></span><span style="display:flex;"><span>    header<span style="color:#ff79c6">.</span>profile_button<span style="color:#ff79c6">.</span>should(be<span style="color:#ff79c6">.</span>visible)
+</span></span></code></pre></div><p>components/auth</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">from</span> ui.core <span style="color:#ff79c6">import</span> Input, Button
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>email_input <span style="color:#ff79c6">=</span> Input(
+</span></span><span style="display:flex;"><span>selector<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;[data-testid=&#34;login-input&#34;]&#39;</span>,
+</span></span><span style="display:flex;"><span>description<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;Введите E-mail&#34;</span>,
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>password_input <span style="color:#ff79c6">=</span> Input(
+</span></span><span style="display:flex;"><span>selector<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;[data-testid=&#34;password-input&#34;]&#39;</span>,
+</span></span><span style="display:flex;"><span>description<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;Введите Пароль&#34;</span>,
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>login_button <span style="color:#ff79c6">=</span> Button(selector<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;[data-testid=&#34;login-button&#34;]&#39;</span>, description<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;Войти&#34;</span>)
+</span></span><span style="display:flex;"><span>forgot_password_button <span style="color:#ff79c6">=</span> Button(
+</span></span><span style="display:flex;"><span>selector<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;Забыли пароль?&#34;</span>,
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>create_account_button <span style="color:#ff79c6">=</span> Button(selector<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;Создать аккаунт&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">as_user</span>(username: <span style="color:#8be9fd;font-style:italic">str</span>, password: <span style="color:#8be9fd;font-style:italic">str</span>):
+</span></span><span style="display:flex;"><span>    email_input<span style="color:#ff79c6">.</span>type(username)
+</span></span><span style="display:flex;"><span>    password_input<span style="color:#ff79c6">.</span>type(password)
+</span></span><span style="display:flex;"><span>    login_button<span style="color:#ff79c6">.</span>click()
+</span></span></code></pre></div><p>Для оценки покрытия UI автотестами использую <a href="https://github.com/Nikita-Filonov/ui-coverage-tool">https://github.com/Nikita-Filonov/ui-coverage-tool</a>, есть свое самописаное расширение, которому можно скормить результаты прогона и отобразить покрытие на странице.</p>
+<p><img src="./ui-coverage-example.png" alt="Фотография"></p>
+<p><strong>API</strong></p>
+<p>Клиенты и DTO автоматически генерирую на основе OpenApi спецификации. Есть опыт тестирования и работы с микросервисной архитектурой от нескольких микросервисов до нескольких десятков микросервисов. Есть свой небольшой клиент над httpx для автоматического логгирования в Allure.</p>
+<p>Есть свой self-hosted инструмент для автоматической оценки покрытия API тестами на основе swagger.</p>
+<p><img src="./api-coverage.png" alt="Фотография">
+<img src="./api-coverage-endpoint.png" alt="Фотография"></p>
+<p>Так же использую в работе <a href="https://github.com/Nikita-Filonov/swagger-coverage-tool">https://github.com/Nikita-Filonov/swagger-coverage-tool</a> со своими доработками для более лаконичного синтаксиса.</p>
+<p>Очень простой автотест выглядит подобным образом</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">from</span> clients.http.auth.apis.auth_http_api <span style="color:#ff79c6">import</span> AuthApi
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> clients.http.auth.apis.session_http_api <span style="color:#ff79c6">import</span> SessionApi
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> config <span style="color:#ff79c6">import</span> Settings
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> clients.http.user.apis.users_api <span style="color:#ff79c6">import</span> UserApi
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> clients.http.auth.models.api_models <span style="color:#ff79c6">import</span> AuthLoginDto, SessionAccessCreateDto
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">test_auth</span>(
+</span></span><span style="display:flex;"><span>auth_service: AuthApi,
+</span></span><span style="display:flex;"><span>session_service: SessionApi,
+</span></span><span style="display:flex;"><span>user_service: UserApi,
+</span></span><span style="display:flex;"><span>settings: Settings,
+</span></span><span style="display:flex;"><span>):
+</span></span><span style="display:flex;"><span>    auth <span style="color:#ff79c6">=</span> auth_service<span style="color:#ff79c6">.</span>post_auth_login(
+</span></span><span style="display:flex;"><span>    AuthLoginDto(email<span style="color:#ff79c6">=</span>settings<span style="color:#ff79c6">.</span>user_email, password<span style="color:#ff79c6">=</span>settings<span style="color:#ff79c6">.</span>user_password)
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    session <span style="color:#ff79c6">=</span> session_service<span style="color:#ff79c6">.</span>post_auth_sessions_access(
+</span></span><span style="display:flex;"><span>    SessionAccessCreateDto(refreshToken<span style="color:#ff79c6">=</span>auth<span style="color:#ff79c6">.</span>refresh_token)
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    user <span style="color:#ff79c6">=</span> user_service<span style="color:#ff79c6">.</span>get_user_users_me(
+</span></span><span style="display:flex;"><span>    headers<span style="color:#ff79c6">=</span>{<span style="color:#f1fa8c">&#34;authorization&#34;</span>: <span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;Bearer </span><span style="color:#f1fa8c">{</span>session<span style="color:#ff79c6">.</span>access<span style="color:#ff79c6">.</span>token<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>},
+</span></span><span style="display:flex;"><span>    tariff_sync_force<span style="color:#ff79c6">=</span><span style="color:#ff79c6">False</span>,
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">assert</span> user<span style="color:#ff79c6">.</span>email <span style="color:#ff79c6">==</span> settings<span style="color:#ff79c6">.</span>user_email
+</span></span></code></pre></div><p>UNIT</p>
+<p>Писал юнит автотесты под django, fastapi, с использованием различных инструментов для различных задач.</p>
+<p>Будет дополнено.</p>
 
       </div>
 
@@ -55,6 +135,7 @@
           <nav id="TableOfContents">
   <ul>
     <li><a href="#основное">Основное</a></li>
+    <li><a href="#чуть-о-том-как-работаю">Чуть о том как работаю</a></li>
   </ul>
 </nav>
         </nav>
@@ -69,12 +150,17 @@
         
         
             
-            <a href="/victors-blog/posts/auto-logging-in-playwright/" class="read-more-post">
-                <div class="post-data">29.03.2026</div>
-                <h4>Автоматическое логгирование шагов в Playwright</h4>
+            <a href="/victors-blog/posts/fail-test-when-see-error-in-console/" class="read-more-post">
+                <div class="post-data">01.04.2026</div>
+                <h4>Видим ошибку в консоли -&gt; роняем тест</h4>
             </a>
             
         
+            
+            <a href="/victors-blog/posts/different-envs/" class="read-more-post">
+                <div class="post-data">29.03.2026</div>
+                <h4>Разные envs под разные окружения</h4>
+            </a>
             
         
             
